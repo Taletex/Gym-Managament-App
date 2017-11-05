@@ -1,0 +1,69 @@
+<h1 style="text-align:center;"><b>Workout Equipment</b></h1>
+
+<p *ngIf="!workoutEquipments"><em>Loading...</em></p>
+
+
+<div class="workoutEquipments-home">
+
+    <div class="workoutEquipments-div" style="width:98%;" *ngIf="workoutEquipments"> <br />
+
+        <div style="float:left;margin-bottom:0.2%;"><h3 style="display:inline;"><b>Workout Equipment List</b></h3></div>
+        <input [(ngModel)]="queryString" placeholder="Search..." style="border:1px solid #999999; float:right; width:15.9% ;margin-right: 0.1%;">
+        <table>
+            <tr>
+                <th class="pointer" (click)="sort('name')"> Name
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'name','fa-sort-asc': (column == 'name' && !isDesc),'fa-sort-desc': (column == 'name' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="pointer" (click)="sort('purpose')"> Purpose
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'purpose','fa-sort-asc': (column == 'purpose' && !isDesc),'fa-sort-desc': (column == 'purpose' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="pointer" (click)="sort('trainingRoomName')">Training room name
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'trainingRoomName','fa-sort-asc': (column == 'trainingRoomName' && !isDesc),'fa-sort-desc': (column == 'trainingRoomName' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="small">Update</th>
+                <th class="small">Delete</th>
+            </tr>
+            <tr *ngFor="let wEquipment of workoutEquipments | FilterPipe: queryString : searchableList | OrderPipe: {property: column, direction: direction}"
+                [class.selected]="wEquipment === selectedWorkoutEquipment"
+                [hidden]="wEquipment.deleted">
+                <td> {{wEquipment.name || '-' }} </td> 
+                <td> {{wEquipment.purpose || '-' }} </td> 
+                <td> {{wEquipment.trainingRoomName || '-'}} <span>{{wEquipment.hasChanges?'*':''}}</span> </td>
+                <td style="text-align: center;"><span class='glyphicon glyphicon-upload' style="font-size: 130%;" (click)="showUpdateCreateDiv(wEquipment)"></span> </td>
+                <td style="text-align: center;"><span class='glyphicon glyphicon-remove' style="font-size: 130%;" (click)="delete(wEquipment)"></span> </td>
+            </tr>
+            <tr (click)="addNewWorkoutEquipment()" style="cursor: pointer;">
+                <td style="text-align: center; border-right:none;"> <span class="glyphicon glyphicon-plus" ></span> </td>
+                <td colspan ="4" style="padding-left: 3%; border-left:none;">Add new workout equipment</td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+    <div *ngIf="selectedWorkoutEquipment" class="detail" [hidden]="hide" style="width:100%;">
+        <h4 *ngIf="isUpdate"><b>Update workout equipment "{{selectedWorkoutEquipment.name}}" </b></h4>
+        <h4 *ngIf="!isUpdate"><b>New WorkoutEquipment</b></h4>
+        <table class="input-table">
+            <tr *ngIf="!isUpdate">
+                <td class="input-label"> <label for='name'>Name:</label> </td>
+                <td> <input type="text" [(ngModel)]="selectedWorkoutEquipment.name" placeholder="name"></td>
+            </tr>
+            <tr>
+                <td class="input-label"> <label for='purpose'>Purpose:</label> </td>
+                <td> <input [(ngModel)]="selectedWorkoutEquipment.purpose" placeholder="purpose"></td>
+            </tr>
+            <tr>
+                <td class="input-label"> <label for='trainingRoomName'>Training room name:</label> </td>
+                <td><select [(ngModel)]="selectedWorkoutEquipment.trainingRoomName"><option *ngFor="let tRoomName of trainingRoomNames" >{{tRoomName}}</option></select></td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+</div>
+
+<div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" (click)="saveChanges()">
+    <span><b>SAVE</b></span>
+</div>

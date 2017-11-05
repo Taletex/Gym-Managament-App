@@ -1,0 +1,85 @@
+<h1 style="text-align:center;"><b>Users</b></h1>
+
+<p *ngIf="!users"><em>Loading...</em></p>
+
+
+<div class="users-home">
+
+    <div class="users-div" style="width:98%;" *ngIf="users"> <br />
+
+        <div style="float:left;margin-bottom:0.2%;"><h3 style="display:inline;"><b>Users List</b></h3></div>
+        <input [(ngModel)]="queryString" placeholder="Search..." style="border:1px solid #999999; float:right; width:15.9% ;margin-right: 0.1%;">
+        <table>
+            <tr>
+                <th class="pointer" (click)="sort('name')"> Name
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'name','fa-sort-asc': (column == 'name' && !isDesc),'fa-sort-desc': (column == 'name' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="pointer" (click)="sort('surname')"> Surname
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'surname','fa-sort-asc': (column == 'surname' && !isDesc),'fa-sort-desc': (column == 'surname' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="pointer" (click)="sort('address')"> Address
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'address','fa-sort-asc': (column == 'address' && !isDesc),'fa-sort-desc': (column == 'address' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="pointer" (click)="sort('fc')"> Fiscal Code
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'fc','fa-sort-asc': (column == 'fc' && !isDesc),'fa-sort-desc': (column == 'fc' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="pointer" (click)="sort('trainingProgramId')"> Training program Id
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'trainingProgramId','fa-sort-asc': (column == 'trainingProgramId' && !isDesc),'fa-sort-desc': (column == 'trainingProgramId' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="small">Update</th>
+                <th class="small">Delete</th>
+            </tr>
+            <tr *ngFor="let usr of users | FilterPipe: queryString : searchableList | OrderPipe: {property: column, direction: direction}"
+                [class.selected]="usr === selectedUser"
+                [hidden]="usr.deleted">
+                <td> {{usr.name || '-' }} </td> 
+                <td> {{usr.surname || '-' }} </td> 
+                <td> {{usr.address || '-' }} </td> 
+                <td> {{usr.fc || '-' }} </td> 
+                <td> {{usr.trainingProgramId || '-'}} <span>{{usr.hasChanges?'*':''}}</span> </td>
+                <td style="text-align: center;"><span class='glyphicon glyphicon-upload' style="font-size: 130%;" (click)="showUpdateCreateDiv(usr)"></span> </td>
+                <td style="text-align: center;"><span class='glyphicon glyphicon-remove' style="font-size: 130%;" (click)="delete(usr)"></span> </td>
+            </tr>
+            <tr (click)="addNewUser()" style="cursor: pointer;">
+                <td style="text-align: center; border-right:none;"> <span class="glyphicon glyphicon-plus" ></span> </td>
+                <td colspan ="6" style="padding-left: 3%; border-left:none;">Add new user</td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+    <div *ngIf="selectedUser" class="detail" [hidden]="hide" style="width:100%;">
+        <h4 *ngIf="isUpdate"><b>Update user "{{selectedUser.name}} {{selectedUser.surname}} - {{selectedUser.fc}}" </b></h4>
+        <h4 *ngIf="!isUpdate"><b>New User</b></h4>
+        <table class="input-table">
+            <tr>
+                <td class="input-label"> <label for='name'>Name:</label> </td>
+                <td> <input type="text" [(ngModel)]="selectedUser.name" placeholder="name"></td>
+            </tr>
+            <tr>
+                <td class="input-label"> <label for='surname'>Surname:</label> </td>
+                <td> <input [(ngModel)]="selectedUser.surname" placeholder="surname"></td>
+            </tr>
+            <tr>
+                <td class="input-label"> <label for='address'>Address:</label> </td>
+                <td> <input type="text" [(ngModel)]="selectedUser.address" placeholder="address"></td>
+            </tr>
+            <tr *ngIf="!isUpdate">
+                <td class="input-label"> <label for='fc'>Fiscal code:</label> </td>
+                <td> <input type="text" [(ngModel)]="selectedUser.fc" placeholder="fiscal code"></td>
+            </tr>
+            <tr>
+                <td class="input-label"> <label for='trainingProgramId'>Training program Id:</label> </td>
+                <td><select [(ngModel)]="selectedUser.trainingProgramId"><option *ngFor="let tProgramId of trainingProgramId" >{{tProgramId}}</option></select></td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+</div>
+
+<div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" (click)="saveChanges()">
+    <span><b>SAVE</b></span>
+</div>

@@ -1,0 +1,50 @@
+<h1 style="text-align:center;"><b>Training Rooms</b></h1>
+
+<p *ngIf="!trainingRooms"><em>Loading...</em></p>
+
+
+<div class="trainingRooms-home">
+
+    <div class="trainingRooms-div" style="width:98%;" *ngIf="trainingRooms"> <br />
+
+        <div style="float:left;margin-bottom:0.2%;"><h3 style="display:inline;"><b>TrainingRoom List</b></h3></div>
+        <input [(ngModel)]="queryString" placeholder="Search..." style="border:1px solid #999999; float:right; width:15.9% ;margin-right: 0.1%;">
+        <table>
+            <tr>
+                <th class="pointer" (click)="sort('name')"> Name
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'name','fa-sort-asc': (column == 'name' && !isDesc),'fa-sort-desc': (column == 'name' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="small">Delete</th>
+            </tr>
+            <tr *ngFor="let tRoom of trainingRooms | FilterPipe: queryString : searchableList | OrderPipe: {property: column, direction: direction}"
+                [class.selected]="tRoom === selectedTrainingRoom"
+                [hidden]="tRoom.deleted">
+                <td> {{tRoom.name || '-' }} <span>{{tRoom.hasChanges?'*':''}}</span> </td> 
+                <td style="text-align: center;"><span class='glyphicon glyphicon-remove' style="font-size: 130%;" (click)="delete(tRoom)"></span> </td>
+            </tr>
+            <tr (click)="addNewTrainingRoom()" style="cursor: pointer;">
+                <td colspan="2"> <span class="glyphicon glyphicon-plus" ></span><span style="padding-left: 3%;" >Add new training room</span> </td>
+            </tr>
+        </table>
+        <br /> <p style="color:darkred;"> <em>Note: Training rooms cannot be updated</em></p>
+    </div>
+
+    <hr />
+
+    <div *ngIf="selectedTrainingRoom" class="detail" [hidden]="hide" style="width:100%;">
+        <h4 *ngIf="!isUpdate"><b>New TrainingRoom</b></h4>
+        <table class="input-table">
+            <tr *ngIf="!isUpdate">
+                <td class="input-label"> <label for='name'>Name:</label> </td>
+                <td> <input type="text" [(ngModel)]="selectedTrainingRoom.name" placeholder="name"></td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+</div>
+
+<div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" (click)="saveChanges()">
+    <span><b>SAVE</b></span>
+</div>

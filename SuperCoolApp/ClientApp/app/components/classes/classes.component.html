@@ -1,0 +1,82 @@
+<h1 style="text-align:center;"><b>Classes</b></h1>
+
+<p *ngIf="!classes"><em>Loading...</em></p>
+
+
+<div class="classes-home">
+
+    <!-- Table content -->
+    <div class="classes-div" style="width:98%;" *ngIf="classes"> <br />
+
+        <div style="float:left;margin-bottom:0.2%;"><h3 style="display:inline;"><b>Class List</b></h3></div>
+        <input [(ngModel)]="queryString" placeholder="Search..." style="border:1px solid #999999; float:right; width:15.9% ;margin-right: 0.1%;">
+        <table>
+            <tr>
+                <th class="pointer" (click)="sort('name')"> Name
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'name','fa-sort-asc': (column == 'name' && !isDesc),'fa-sort-desc': (column == 'name' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="pointer" (click)="sort('description')"> Description
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'description','fa-sort-asc': (column == 'description' && !isDesc),'fa-sort-desc': (column == 'description' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="pointer" (click)="sort('timeTable')">
+                    Timetable
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'timetable','fa-sort-asc': (column == 'timetable' && !isDesc),'fa-sort-desc': (column == 'timetable' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="pointer" (click)="sort('trainingRoomName')">
+                    Training room name
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'trainingRoomName','fa-sort-asc': (column == 'trainingRoomName' && !isDesc),'fa-sort-desc': (column == 'trainingRoomName' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="small">Update</th>
+                <th class="small">Delete</th>
+            </tr>
+            <tr *ngFor="let clss of classes | FilterPipe: queryString : searchableList | OrderPipe: {property: column, direction: direction}"
+                [class.selected]="clss === selectedClass"
+                [hidden]="clss.deleted">
+                <td> {{clss.name || '-' }} </td> 
+                <td> {{clss.description || '-' }} </td> 
+                <td> {{clss.timeTable || '-' }} </td> 
+                <td> {{clss.trainingRoomName || '-'}} <span>{{clss.hasChanges?'*':''}}</span> </td>
+                <td style="text-align: center;"><span class='glyphicon glyphicon-upload' style="font-size: 130%;" (click)="showUpdateCreateDiv(clss)"></span> </td>
+                <td style="text-align: center;"><span class='glyphicon glyphicon-remove' style="font-size: 130%;" (click)="delete(clss)"></span> </td>
+            </tr>
+            <tr (click)="addNewClass()" style="cursor: pointer;">
+                <td style="text-align: center; border-right:none;"> <span class="glyphicon glyphicon-plus" ></span> </td>
+                <td colspan ="5" style="padding-left: 3%; border-left:none;">Add new class</td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+    <!-- Create/Update content -->
+    <div *ngIf="selectedClass" class="detail" [hidden]="hide" style="width:100%;">
+        <h4 *ngIf="isUpdate"><b>Update class "{{selectedClass.name}}" </b></h4>
+        <h4 *ngIf="!isUpdate"><b>New Class</b></h4>
+        <table class="input-table">
+            <tr *ngIf="!isUpdate">
+                <td class="input-label"> <label for='name'>Name:</label> </td>
+                <td> <input type="text" [(ngModel)]="selectedClass.name" placeholder="name"></td>
+            </tr>
+            <tr>
+                <td class="input-label" style="vertical-align:super;"> <label for='description'>Description:</label> </td>
+                <td> <textarea [(ngModel)]="selectedClass.description" placeholder="description"></textarea> </td>
+            </tr>
+            <tr>
+                <td class="input-label"> <label for='timeTable'>Timetable:</label> </td>
+                <td> <input type="text" [(ngModel)]="selectedClass.timeTable" placeholder="timetable"></td>
+            </tr>
+            <tr>
+                <td class="input-label"> <label for='trainingRoomName'>Training room name:</label> </td>
+                <td><select [(ngModel)]="selectedClass.trainingRoomName"><option *ngFor="let tRoomName of trainingRoomNames" >{{tRoomName}}</option></select></td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+</div>
+
+<!-- Save button -->
+<div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" (click)="saveChanges()">
+    <span><b>SAVE</b></span>
+</div>

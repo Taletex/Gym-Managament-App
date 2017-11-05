@@ -1,0 +1,61 @@
+<h1 style="text-align:center;"><b>Training Programs</b></h1>
+
+<p *ngIf="!trainingPrograms"><em>Loading...</em></p>
+
+
+<div class="trainingPrograms-home">
+
+    <div class="trainingPrograms-div" style="width:98%;" *ngIf="trainingPrograms"> <br />
+
+        <div style="float:left;margin-bottom:0.2%;"><h3 style="display:inline;"><b>Training Program List</b></h3></div>
+        <input [(ngModel)]="queryString" placeholder="Search..." style="border:1px solid #999999; float:right; width:15.9% ;margin-right: 0.1%;">
+        <table>
+            <tr>
+                <th class="small pointer" (click)="sort('id')"> Id
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'id','fa-sort-asc': (column == 'id' && !isDesc),'fa-sort-desc': (column == 'id' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th style="padding-left: 3%;" class="pointer" (click)="sort('description')"> Description
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'description','fa-sort-asc': (column == 'description' && !isDesc),'fa-sort-desc': (column == 'description' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th class="small">Update</th>
+                <th class="small">Delete</th>
+            </tr>
+            <tr *ngFor="let tProgram of trainingPrograms | FilterPipe: queryString : searchableList | OrderPipe: {property: column, direction: direction}"
+                [class.selected]="tProgram === selectedTrainingProgram"
+                [hidden]="tProgram.deleted">
+                <td style="text-align: center;"> {{tProgram.id || '-' }} </td> 
+                <td style="padding-left: 3%;"> {{tProgram.description || '-'}} <span>{{tProgram.hasChanges?'*':''}}</span> </td>
+                <td style="text-align: center;"><span class='glyphicon glyphicon-upload' style="font-size: 130%;" (click)="showUpdateCreateDiv(tProgram)"></span> </td>
+                <td style="text-align: center;"><span class='glyphicon glyphicon-remove' style="font-size: 130%;" (click)="delete(tProgram)"></span> </td>
+            </tr>
+            <tr (click)="addNewTrainingProgram()" style="cursor: pointer;">
+                <td style="text-align: center; border-right:none;"> <span class="glyphicon glyphicon-plus" ></span> </td>
+                <td colspan ="3" style="padding-left: 3%; border-left:none;">Add new training program</td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+    <div *ngIf="selectedTrainingProgram" class="detail" [hidden]="hide" style="width:100%;">
+        <h4 *ngIf="selectedTrainingProgram.id > 0"><b>Update training program #{{selectedTrainingProgram.id}} </b></h4>
+        <h4 *ngIf="!selectedTrainingProgram.id"><b>New TrainingProgram</b></h4>
+        <table class="input-table">
+            <!--<tr>
+                <td> <label for='id'>Id:</label> </td>
+                <td> <input [(ngModel)]="selectedTrainingProgram.id" placeholder="id" type="number" required min="1"/> </td>
+            </tr>-->
+            <tr>
+                <td class="input-label" style="vertical-align:super;"> <label for='description'>Description:</label> </td>
+                <td> <textarea [(ngModel)]="selectedTrainingProgram.description" placeholder="description"></textarea> </td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+</div>
+
+<div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" (click)="saveChanges()">
+    <span><b>SAVE</b></span>
+</div>
