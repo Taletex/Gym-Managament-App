@@ -15,7 +15,7 @@ occorre eseguirli entrambi e attendere che si apra sul proprio browser la SuperC
 
 Progettazione database
 Come database si è scelto di utilizzare MySQL. La progettazione del database è stata effettuata considerando le seguenti specifiche relative alla palestra:
-▪ la palestra offre vari corsi mirati alla pesistica: bodybuilding, powerlifting, crossfit e pesistica olimpica (weightlifting). Per
+▪ la palestra offre vari corsi mirati alla pesistica: bodybuilding, powerlifting, crossfit e pesistica olimpica (weightlifting). Per   
   ogni corso si vogliono memorizzare il nome, gli istruttori che vi insegnano, gli utenti iscritti, la descrizione e gli orari.
 ▪ i corsi sono forniti in un grande spazio chiuso (una sala di allenamento) in cui sono presenti diversi macchinari e attrezzi. Per   
   ogni macchinario e attrezzo si vogliono memorizzare il nome e lo scopo per cui può essere utilizzato.
