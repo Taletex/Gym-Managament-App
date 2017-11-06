@@ -15,14 +15,11 @@ occorre eseguirli entrambi e attendere che si apra sul proprio browser la SuperC
 
 Progettazione database
 Come database si è scelto di utilizzare MySQL. La progettazione del database è stata effettuata considerando le seguenti specifiche relative alla palestra:
-▪ la palestra offre vari corsi mirati alla pesistica: bodybuilding, powerlifting, crossfit e pesistica olimpica (weightlifting). Per   
-  ogni corso si vogliono memorizzare il nome, gli istruttori che vi insegnano, gli utenti iscritti, la descrizione e gli orari.
-▪ i corsi sono forniti in un grande spazio chiuso (una sala di allenamento) in cui sono presenti diversi macchinari e attrezzi. Per   
-  ogni macchinario e attrezzo si vogliono memorizzare il nome e lo scopo per cui può essere utilizzato.
-▪ per ogni utente si vogliono memorizzare il nome, il cognome, l’indirizzo di casa, il codice fiscale e i corsi seguiti;
-▪ la palestra offre ogni giorno degli istruttori il cui compito è quello di seguire gli utenti. Per ogni istruttore si vogliono 
-  memorizzare il nome, il cognome, l’indirizzo di casa, il codice fiscale i corsi in cui insegna e il turno lavorativo;
-▪ a ogni utente è assegnata una scheda di allenamento in cui sono indicati gli esercizi da svolgere in palestra. Per ogni scheda si 
+- la palestra offre vari corsi mirati alla pesistica: bodybuilding, powerlifting, crossfit e pesistica olimpica (weightlifting). Per  ogni corso si vogliono memorizzare il nome, gli istruttori che vi insegnano, gli utenti iscritti, la descrizione e gli orari.
+- i corsi sono forniti in un grande spazio chiuso (una sala di allenamento) in cui sono presenti diversi macchinari e attrezzi. Per   ogni macchinario e attrezzo si vogliono memorizzare il nome e lo scopo per cui può essere utilizzato.
+- per ogni utente si vogliono memorizzare il nome, il cognome, l’indirizzo di casa, il codice fiscale e i corsi seguiti;
+- la palestra offre ogni giorno degli istruttori il cui compito è quello di seguire gli utenti. Per ogni istruttore si vogliono memorizzare il nome, il cognome, l’indirizzo di casa, il codice fiscale i corsi in cui insegna e il turno lavorativo;
+- a ogni utente è assegnata una scheda di allenamento in cui sono indicati gli esercizi da svolgere in palestra. Per ogni scheda si 
   vuole memorizzare la sua descrizione. Una scheda può essere assegnata a più persone, ma ogni persona può avere una sola scheda.
 
 Relazioni del database
